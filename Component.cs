@@ -6,19 +6,32 @@ namespace AyoLib
 {
     public class Component
     {
-        private Entity _entity;
+        private Entity Entity;
         
         private void Initialize(Entity entity)
         {
-            _entity = entity;
+            Entity = entity;
         }
 
-        protected virtual void Update()
+        public void RemoveSelf()
+        {
+            if(Entity != null)
+            {
+                Entity.RemoveComponent(this);
+            }
+        }
+
+        public Entity GetOwner()
+        {
+            return Entity;
+        }
+
+        public virtual void Update()
         {
 
         }
 
-        protected virtual void Draw()
+        public virtual void Draw()
         {
 
         }

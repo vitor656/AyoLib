@@ -14,17 +14,16 @@ namespace AyoLib
     /// </summary>
     public class AyoGame : Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
-
-        public AyoGame()
+        public AyoGame(int Width = 320, int Height = 180, bool FullScreen = false)
         {
-            graphics = new GraphicsDeviceManager(this);
-            Content.RootDirectory = "Content";
-            graphics.IsFullScreen = false;
-            graphics.PreferredBackBufferWidth = 320;
-            graphics.PreferredBackBufferHeight = 180;
+            AyoGameManager.Manager.Graphics = new GraphicsDeviceManager(this);
 
+            Content.RootDirectory = "Content";
+
+            AyoGameManager.Manager.Graphics.IsFullScreen = FullScreen;
+            AyoGameManager.Manager.Graphics.PreferredBackBufferWidth = Width;
+            AyoGameManager.Manager.Graphics.PreferredBackBufferHeight = Height;
+            
         }
 
         /// <summary>
@@ -35,7 +34,6 @@ namespace AyoLib
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
             base.Initialize();
         }
 
@@ -46,7 +44,7 @@ namespace AyoLib
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            AyoGameManager.Manager.SpriteBatch = new SpriteBatch(GraphicsDevice);
 
             //TODO: use this.Content to load your game content here 
         }
@@ -78,10 +76,12 @@ namespace AyoLib
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
-
             //TODO: Add your drawing code here
+            
 
             base.Draw(gameTime);
         }
+        
+}
     }
 }

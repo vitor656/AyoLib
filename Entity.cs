@@ -10,6 +10,7 @@ namespace AyoLib
         private List<Component> _components;
 
         public bool Active = true;
+        public bool Visible = true;
         public Vector2 Position = Vector2.Zero;
 
         public string Tag { get; set; }
@@ -37,12 +38,12 @@ namespace AyoLib
             _components = new List<Component>();
         }
 
-        protected void AddComponent(Component component)
+        public void AddComponent(Component component)
         {
             _components.Add(component);
         }
 
-        protected Component GetComponent<T>() where T : Component
+        public Component GetComponent<T>() where T : Component
         {
             foreach (var component in _components)
             {
@@ -55,10 +56,35 @@ namespace AyoLib
             return null;
         }
 
-        protected void RemoveComponent(Component component)
+        public void RemoveComponent(Component component)
         {
             _components.Remove(component);
         }
         
+        public void Update()
+        {
+            UpdateComponents();
+        }
+
+        public void Draw()
+        {
+            DrawComponents();
+        }
+
+        private void UpdateComponents()
+        {
+            foreach (var component in _components)
+            {
+                component.Update();
+            }
+        }
+
+        private void DrawComponents()
+        {
+            foreach (var component in _components)
+            {
+                component.Draw();
+            }
+        }
     }
 }

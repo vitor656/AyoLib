@@ -9,14 +9,18 @@
     <Import_RootNamespace>AyoLib</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)AyoGame.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)AyoGameManager.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Component.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Entity.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Scene.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\AyoBasic.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\AyoGame.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\AyoGameManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Components\Component.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\BasicScene.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Entity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\AyoScene.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Content\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Components\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Utilities\" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,32 +10,11 @@ namespace AyoLib
     {
         private List<Component> _components;
 
-        public bool Active = true;
-        public bool Visible = true;
-        public Vector2 Position = Vector2.Zero;
-
         public string Tag { get; set; }
-
-        public float X
-        {
-            get { return Position.X; }
-            set { Position.X = value; }
-        }
-
-        public float Y
-        {
-            get { return Position.Y; }
-            set { Position.Y = value; }
-        }
+        
 
         public Entity()
         {
-            Position = Vector2.Zero;
-        }
-
-        public Entity(Vector2 position)
-        {
-            Position = position;
             _components = new List<Component>();
         }
 
@@ -61,29 +41,29 @@ namespace AyoLib
             _components.Remove(component);
         }
         
-        public void Update()
+        public virtual void Update(GameTime gameTime)
         {
-            UpdateComponents();
+            UpdateComponents(gameTime);
         }
 
-        public void Draw()
+        public virtual void Draw(SpriteBatch spriteBatch)
         {
-            DrawComponents();
+            DrawComponents(spriteBatch);
         }
 
-        private void UpdateComponents()
+        private void UpdateComponents(GameTime gameTime)
         {
             foreach (var component in _components)
             {
-                component.Update();
+                component.Update(gameTime);
             }
         }
 
-        private void DrawComponents()
+        private void DrawComponents(SpriteBatch spriteBatch)
         {
             foreach (var component in _components)
             {
-                component.Draw();
+                component.Draw(spriteBatch);
             }
         }
     }

@@ -1,6 +1,6 @@
 ﻿#region Using Statements
 using System;
-
+using AyoLib.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -14,7 +14,10 @@ namespace AyoLib
     /// </summary>
     public class AyoGame : Game
     {
-        public AyoGame(int Width = 320, int Height = 180, bool FullScreen = false)
+
+        private AyoScene CurrentScene;
+
+        public AyoGame(AyoScene StartingScene = null, string Title = "AyoGame", int Width = 320, int Height = 180, bool FullScreen = false)
         {
             AyoGameManager.Manager.Graphics = new GraphicsDeviceManager(this);
 
@@ -23,7 +26,16 @@ namespace AyoLib
             AyoGameManager.Manager.Graphics.IsFullScreen = FullScreen;
             AyoGameManager.Manager.Graphics.PreferredBackBufferWidth = Width;
             AyoGameManager.Manager.Graphics.PreferredBackBufferHeight = Height;
+
+            Window.Title = Title;
+
             
+            if(StartingScene == null)
+            {
+                StartingScene = new BasicScene();
+            }
+
+            CurrentScene = StartingScene;
         }
 
         /// <summary>
@@ -65,7 +77,10 @@ namespace AyoLib
                 Exit();
             }
 #endif
-            // TODO: Add your update logic here			
+
+            CurrentScene.Update(gameTime);
+
+
             base.Update(gameTime);
         }
 
@@ -76,12 +91,16 @@ namespace AyoLib
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
-            //TODO: Add your drawing code here
-            
+
+            AyoGameManager.Manager.SpriteBatch.Begin();
+
+            CurrentScene.Draw(AyoGameManager.Manager.SpriteBatch);
+
+            AyoGameManager.Manager.SpriteBatch.End();
 
             base.Draw(gameTime);
         }
         
-}
     }
 }
+

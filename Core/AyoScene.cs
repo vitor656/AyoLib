@@ -9,14 +9,19 @@ namespace AyoLib
     public class AyoScene
     {
         private List<AyoBasic> _entities;
-
-        public AyoScene()
+        
+        public virtual void Initialize()
         {
-            _entities = new List<AyoBasic>();
+
         }
 
         public virtual void Update(GameTime gameTime)
         {
+            if(_entities == null)
+            {
+                _entities = new List<AyoBasic>();
+            }
+
             foreach (var entity in _entities)
             {
                 if(entity.Active)

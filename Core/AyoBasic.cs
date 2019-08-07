@@ -8,6 +8,8 @@ namespace AyoLib
 {
     public class AyoBasic : Entity
     {
+        public string Tag { get; set; }
+
         public bool Active = true;
         public bool Visible = true;
 

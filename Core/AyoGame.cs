@@ -14,8 +14,8 @@ namespace AyoLib
     /// </summary>
     public class AyoGame : Game
     {
-
-        private AyoScene CurrentScene;
+        private string _title;
+        private AyoScene _currentScene;
 
         public AyoGame(AyoScene StartingScene = null, string Title = "AyoGame", int Width = 320, int Height = 180, bool FullScreen = false)
         {
@@ -27,15 +27,14 @@ namespace AyoLib
             AyoGameManager.Manager.Graphics.PreferredBackBufferWidth = Width;
             AyoGameManager.Manager.Graphics.PreferredBackBufferHeight = Height;
 
-            Window.Title = Title;
-
+            _title = Title;
             
-            if(StartingScene == null)
+            if (StartingScene == null)
             {
                 StartingScene = new BasicScene();
             }
 
-            CurrentScene = StartingScene;
+            _currentScene = StartingScene;
         }
 
         /// <summary>
@@ -46,6 +45,9 @@ namespace AyoLib
         /// </summary>
         protected override void Initialize()
         {
+            Window.Title = _title;
+
+            _currentScene.Initialize();
             base.Initialize();
         }
 
@@ -78,7 +80,7 @@ namespace AyoLib
             }
 #endif
 
-            CurrentScene.Update(gameTime);
+            _currentScene.Update(gameTime);
 
 
             base.Update(gameTime);
@@ -94,11 +96,16 @@ namespace AyoLib
 
             AyoGameManager.Manager.SpriteBatch.Begin();
 
-            CurrentScene.Draw(AyoGameManager.Manager.SpriteBatch);
+            _currentScene.Draw(AyoGameManager.Manager.SpriteBatch);
 
             AyoGameManager.Manager.SpriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        public AyoScene GetCurrentScene()
+        {
+            return _currentScene;
         }
         
     }

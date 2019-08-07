@@ -10,9 +10,6 @@ namespace AyoLib
     {
         private List<Component> _components;
 
-        public string Tag { get; set; }
-        
-
         public Entity()
         {
             _components = new List<Component>();

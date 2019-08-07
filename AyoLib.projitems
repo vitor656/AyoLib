@@ -14,12 +14,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\AyoGameManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\Component.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\BasicScene.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Entity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\Entity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\AyoScene.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Graphics\Graphic.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Content\" />
     <Folder Include="$(MSBuildThisFileDirectory)Components\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Entities\" />
     <Folder Include="$(MSBuildThisFileDirectory)Utilities\" />
   </ItemGroup>
   <ItemGroup>

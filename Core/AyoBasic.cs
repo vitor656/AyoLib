@@ -40,6 +40,25 @@ namespace AyoLib
             Position = position;
         }
 
+        public AyoBasic(float x, float y)
+        {
+            Position = new Vector2 {
+                X = x,
+                Y = y
+            };
+        }
+
+        public AyoBasic(Graphic graphic, float x, float y)
+        {
+            _graphic = graphic;
+
+            Position = new Vector2
+            {
+                X = x,
+                Y = y
+            };
+        }
+
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);

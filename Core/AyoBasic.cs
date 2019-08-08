@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using AyoLib.Graphics;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,8 @@ namespace AyoLib
         public bool Visible = true;
 
         public Vector2 Position = Vector2.Zero;
+
+        private Graphic _graphic;
 
         public float X
         {
@@ -44,7 +47,15 @@ namespace AyoLib
 
         public override void Draw(SpriteBatch spriteBatch)
         {
+            spriteBatch.Draw(_graphic.Texture2D, Position, Color.White);
             base.Draw(spriteBatch);
+        }
+
+        public void SetGraphic(Graphic graphic, int width, int height)
+        {
+            _graphic = graphic;
+            _graphic.Width = width;
+            _graphic.Height = height;
         }
     }
 }

@@ -12,7 +12,10 @@ namespace AyoLib
         
         public virtual void Initialize()
         {
-
+            if (_entities == null)
+            {
+                _entities = new List<AyoBasic>();
+            }
         }
 
         public virtual void Update(GameTime gameTime)

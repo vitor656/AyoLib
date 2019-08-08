@@ -13,12 +13,19 @@ namespace AyoLib.Graphics
         public int Width;
         public int Height;
 
-        public static Texture2D CreateRectangle(int Width, int Height, Color color)
+        public static Graphic CreateRectangle(int Width, int Height, Color color)
         {
-            Texture2D rectTexture = new Texture2D(AyoGameManager.Manager.Graphics.GraphicsDevice, Width, Height);
+            Texture2D rectTexture = new Texture2D(AyoGameManager.Manager.Graphics.GraphicsDevice, 1, 1);
             rectTexture.SetData(new[] { color });
 
-            return rectTexture;
+            Graphic g = new Graphic
+            {
+                Texture2D = rectTexture,
+                Width = Width,
+                Height = Height
+            };
+
+            return g;
         }
     }
 }

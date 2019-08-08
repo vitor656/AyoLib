@@ -47,15 +47,13 @@ namespace AyoLib
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(_graphic.Texture2D, Position, Color.White);
+            spriteBatch.Draw(_graphic.Texture2D, new Rectangle((int) Position.X, (int) Position.Y, _graphic.Width, _graphic.Height), Color.White);
             base.Draw(spriteBatch);
         }
 
-        public void SetGraphic(Graphic graphic, int width, int height)
+        public void SetGraphic(Graphic graphic)
         {
             _graphic = graphic;
-            _graphic.Width = width;
-            _graphic.Height = height;
         }
     }
 }

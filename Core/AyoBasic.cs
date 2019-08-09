@@ -16,6 +16,7 @@ namespace AyoLib
 
         public Vector2 Position = Vector2.Zero;
         public Vector2 Speed = Vector2.Zero;
+        public Vector2 Acceleration = Vector2.Zero;
 
         private Graphic _graphic;
 
@@ -62,6 +63,7 @@ namespace AyoLib
 
         public virtual void Update(GameTime gameTime)
         {
+            Speed += Acceleration;
             Position += Speed;
         }
 
@@ -81,6 +83,11 @@ namespace AyoLib
         public void SetGraphic(Graphic graphic)
         {
             _graphic = graphic;
+        }
+
+        public Graphic GetGraphic()
+        {
+            return _graphic;
         }
 
         public void SetSpeed(Vector2 speed)

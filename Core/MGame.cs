@@ -1,39 +1,17 @@
-﻿#region Using Statements
-using System;
-using AyoLib.Core;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
-#endregion
-
-namespace AyoLib
+namespace AyoLib.Core
 {
-    /// <summary>
-    /// This is the main type for your game.
-    /// </summary>
-    public class AyoGame : Game
+    public class MGame : Game
     {
-        private string _title;
-        private AyoScene _currentScene;
-
-        public AyoGame(AyoScene StartingScene = null, string Title = "AyoGame", int Width = 320, int Height = 180, bool FullScreen = false)
+        public MGame()
         {
             Content.RootDirectory = "Content";
 
-            AyoGameManager.Manager.Graphics = new GraphicsDeviceManager(this);
-            AyoGameManager.Manager.Graphics.IsFullScreen = FullScreen;
-            AyoGameManager.Manager.Graphics.PreferredBackBufferWidth = Width;
-            AyoGameManager.Manager.Graphics.PreferredBackBufferHeight = Height;
-
-            _title = Title;
-            
-            if (StartingScene == null)
-            {
-                StartingScene = new BasicScene();
-            }
-
-            _currentScene = StartingScene;
         }
 
         /// <summary>
@@ -102,11 +80,5 @@ namespace AyoLib
             base.Draw(gameTime);
         }
 
-        public AyoScene GetCurrentScene()
-        {
-            return _currentScene;
-        }
-        
     }
 }
-

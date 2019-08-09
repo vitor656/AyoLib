@@ -7,14 +7,15 @@ using System.Text;
 
 namespace AyoLib
 {
-    public class AyoBasic : Entity
+    public class AyoBasic
     {
         public string Tag { get; set; }
-
+        
         public bool Active = true;
         public bool Visible = true;
 
         public Vector2 Position = Vector2.Zero;
+        public Vector2 Speed = Vector2.Zero;
 
         private Graphic _graphic;
 
@@ -59,20 +60,42 @@ namespace AyoLib
             };
         }
 
-        public override void Update(GameTime gameTime)
+        public virtual void Update(GameTime gameTime)
         {
-            base.Update(gameTime);
+            Position += Speed;
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public virtual void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(_graphic.Texture2D, new Rectangle((int) Position.X, (int) Position.Y, _graphic.Width, _graphic.Height), Color.White);
-            base.Draw(spriteBatch);
+            if(_graphic != null)
+            {
+                spriteBatch.Draw(
+                    _graphic.Texture2D, 
+                    new Rectangle((int)Position.X, (int)Position.Y, _graphic.Width, _graphic.Height), 
+                    Color.White
+                );
+            }
+            
         }
 
         public void SetGraphic(Graphic graphic)
         {
             _graphic = graphic;
+        }
+
+        public void SetSpeed(Vector2 speed)
+        {
+            Speed = speed;
+        }
+
+        public void SetXSpeed(float XSpeed)
+        {
+            Speed.X = XSpeed;
+        }
+
+        public void SetYSpeed(float YSpeed)
+        {
+            Speed.Y = YSpeed;
         }
     }
 }

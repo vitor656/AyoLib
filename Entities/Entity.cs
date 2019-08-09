@@ -6,18 +6,26 @@ using System.Text;
 
 namespace AyoLib
 {
-    public class Entity
+    public class Entity : AyoBasic
     {
-        private List<Component> _components;
-
-        public Entity()
-        {
-            _components = new List<Component>();
-        }
+        private List<Component> _components = new List<Component>();
 
         public void AddComponent(Component component)
         {
-            _components.Add(component);
+            bool foundComponent = false;
+            foreach (var c in _components)
+            {
+                if(c.GetType() == component.GetType())
+                {
+                    foundComponent = true;
+                }
+            }
+
+            if (!foundComponent)
+            {
+                component.Initialize(this);
+                _components.Add(component);
+            }
         }
 
         public Component GetComponent<T>() where T : Component
@@ -35,17 +43,26 @@ namespace AyoLib
 
         public void RemoveComponent(Component component)
         {
-            _components.Remove(component);
+            foreach (var c in _components)
+            {
+                if(c.GetType() == component.GetType())
+                {
+                    _components.Remove(c);
+                    break;
+                }
+            }
         }
         
-        public virtual void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             UpdateComponents(gameTime);
+            base.Update(gameTime);
         }
 
-        public virtual void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             DrawComponents(spriteBatch);
+            base.Draw(spriteBatch);
         }
 
         private void UpdateComponents(GameTime gameTime)

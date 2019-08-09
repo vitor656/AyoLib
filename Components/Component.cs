@@ -8,24 +8,25 @@ namespace AyoLib
 {
     public class Component
     {
-        private Entity Entity;
+        protected Entity Owner;
         
-        private void Initialize(Entity entity)
+        public void Initialize(Entity entity)
         {
-            Entity = entity;
+            Owner = entity;
+            
         }
 
         public void RemoveSelf()
         {
-            if(Entity != null)
+            if(Owner != null)
             {
-                Entity.RemoveComponent(this);
+                Owner.RemoveComponent(this);
             }
         }
 
         public Entity GetOwner()
         {
-            return Entity;
+            return Owner;
         }
 
         public virtual void Update(GameTime gameTime)

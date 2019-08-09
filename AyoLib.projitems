@@ -9,6 +9,7 @@
     <Import_RootNamespace>AyoLib</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Components\BasicMovement.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\AyoBasic.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\AyoGame.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\AyoGameManager.cs" />
@@ -20,7 +21,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Content\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Components\" />
     <Folder Include="$(MSBuildThisFileDirectory)Entities\" />
     <Folder Include="$(MSBuildThisFileDirectory)Utilities\" />
   </ItemGroup>

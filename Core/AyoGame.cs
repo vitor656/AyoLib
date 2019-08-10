@@ -17,8 +17,11 @@ namespace AyoLib
         private string _title;
         private AyoScene _currentScene;
 
+        public static AyoGame CurrentGame;
+
         public AyoGame(AyoScene StartingScene = null, string Title = "AyoGame", int Width = 320, int Height = 180, bool FullScreen = false)
         {
+            CurrentGame = this;
             Content.RootDirectory = "Content";
 
             AyoGameManager.Manager.Graphics = new GraphicsDeviceManager(this);

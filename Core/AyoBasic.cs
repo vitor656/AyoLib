@@ -13,12 +13,15 @@ namespace AyoLib
         
         public bool Active = true;
         public bool Visible = true;
-
+            
         public Vector2 Position = Vector2.Zero;
+        public Vector2 Origin = Vector2.Zero;
         public Vector2 Speed = Vector2.Zero;
         public Vector2 Acceleration = Vector2.Zero;
+        public float RotationSpeed = 0f;
 
         private Graphic _graphic;
+        private float _rotation;
 
         public float X
         {
@@ -65,6 +68,7 @@ namespace AyoLib
         {
             Speed += Acceleration;
             Position += Speed;
+            _rotation += MathHelper.ToRadians(RotationSpeed);
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)
@@ -72,10 +76,16 @@ namespace AyoLib
             if(_graphic != null)
             {
                 spriteBatch.Draw(
-                    _graphic.Texture2D, 
-                    new Rectangle((int)Position.X, (int)Position.Y, _graphic.Width, _graphic.Height), 
-                    Color.White
+                    texture: _graphic.Texture2D, 
+                    destinationRectangle: new Rectangle((int)Position.X, (int)Position.Y, _graphic.Width, _graphic.Height), 
+                    sourceRectangle: null,
+                    color: Color.White,
+                    rotation: _rotation,
+                    origin: Origin,
+                    effects: SpriteEffects.None,
+                    layerDepth: 0f
                 );
+                
             }
             
         }
@@ -83,6 +93,16 @@ namespace AyoLib
         public void SetGraphic(Graphic graphic)
         {
             _graphic = graphic;
+        }
+
+        public void SetGraphic(string graphicName)
+        {
+            _graphic = new Graphic(AyoGame.CurrentGame.Content.Load<Texture2D>(graphicName));
+        }
+
+        public void SetGraphic(string graphicName, int width, int height)
+        {
+            _graphic = new Graphic(AyoGame.CurrentGame.Content.Load<Texture2D>(graphicName), width, height);
         }
 
         public Graphic GetGraphic()
@@ -103,6 +123,22 @@ namespace AyoLib
         public void SetYSpeed(float YSpeed)
         {
             Speed.Y = YSpeed;
+        }
+
+        public void CenterOrigin()
+        {
+            if(_graphic != null)
+            {
+                Origin = new Vector2(_graphic.Width / 2, _graphic.Height / 2);
+            } 
+        }
+
+        public void ScreenCenter()
+        {
+            Position = new Vector2(
+                AyoGameManager.Manager.Graphics.PreferredBackBufferWidth / 2,
+                AyoGameManager.Manager.Graphics.PreferredBackBufferHeight / 2
+            );
         }
     }
 }

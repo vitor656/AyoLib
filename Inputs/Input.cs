@@ -15,6 +15,9 @@ namespace AyoLib.Inputs
         private static GamePadState _previousGamePadState;
         private static GamePadState _gamePadState;
 
+        private static MouseState _previousMouseState;
+        private static MouseState _mouseState;
+
         public override void Update(GameTime gameTime)
         {
             _previousKeyboardState = _keyboardState;
@@ -22,6 +25,9 @@ namespace AyoLib.Inputs
 
             _previousGamePadState = _gamePadState;
             _gamePadState = GamePad.GetState(0);
+
+            _previousMouseState = _mouseState;
+            _mouseState = Mouse.GetState();
 
             base.Update(gameTime);
         }
@@ -86,6 +92,11 @@ namespace AyoLib.Inputs
             }
 
             return keyPressed;
+        }
+
+        public static Vector2 GetMousePositionOnScreen()
+        {
+            return _mouseState.Position.ToVector2();
         }
     }
 }

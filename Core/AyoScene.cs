@@ -25,7 +25,7 @@ namespace AyoLib
                 _entities = new List<AyoBasic>();
             }
 
-            foreach (var entity in _entities)
+            foreach (var entity in _entities.ToArray())
             {
                 if(entity.Active)
                     entity.Update(gameTime);

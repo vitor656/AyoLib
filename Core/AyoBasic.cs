@@ -7,7 +7,7 @@ using System.Text;
 
 namespace AyoLib
 {
-    public class AyoBasic
+    public class AyoBasic : ICloneable
     {
         public string Tag { get; set; }
         
@@ -18,7 +18,10 @@ namespace AyoLib
         public Vector2 Origin = Vector2.Zero;
         public Vector2 Speed = Vector2.Zero;
         public Vector2 Acceleration = Vector2.Zero;
+
+        public Vector2 Direction;
         public float RotationSpeed = 0f;
+        public float LinearSpeed = 0f;
 
         private Graphic _graphic;
         private float _rotation;
@@ -69,6 +72,8 @@ namespace AyoLib
             Speed += Acceleration;
             Position += Speed;
             _rotation += MathHelper.ToRadians(RotationSpeed);
+            Direction = new Vector2( (float) Math.Cos(_rotation), (float) Math.Sin(_rotation));
+            Position += Direction * LinearSpeed;
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)
@@ -139,6 +144,17 @@ namespace AyoLib
                 AyoGameManager.Manager.Graphics.PreferredBackBufferWidth / 2,
                 AyoGameManager.Manager.Graphics.PreferredBackBufferHeight / 2
             );
+        }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
+
+        public void Kill()
+        {
+            Active = false;
+            Visible = false;
         }
     }
 }

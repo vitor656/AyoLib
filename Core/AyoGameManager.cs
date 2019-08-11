@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using AyoLib.Entities;
+using AyoLib.Inputs;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -20,5 +22,20 @@ namespace AyoLib
 
         public SpriteBatch SpriteBatch;
         public GraphicsDeviceManager Graphics;
+
+        public List<GameSystemEntity> GameSystemEntities = new List<GameSystemEntity>();
+
+        public void InitializeDefaultGameSystemEntities()
+        {
+            GameSystemEntities.Add(new Input());
+        }
+
+        public void UpdateGameSystemEntities(GameTime gameTime)
+        {
+            foreach (GameSystemEntity entity in GameSystemEntities)
+            {
+                entity.Update(gameTime);
+            }
+        }
     }
 }

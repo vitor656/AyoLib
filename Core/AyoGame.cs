@@ -1,17 +1,12 @@
-﻿#region Using Statements
-using System;
+﻿using System;
 using AyoLib.Core;
+using AyoLib.Inputs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-#endregion
-
 namespace AyoLib
 {
-    /// <summary>
-    /// This is the main type for your game.
-    /// </summary>
     public class AyoGame : Game
     {
         private string _title;
@@ -28,6 +23,8 @@ namespace AyoLib
             AyoGameManager.Manager.Graphics.IsFullScreen = FullScreen;
             AyoGameManager.Manager.Graphics.PreferredBackBufferWidth = Width;
             AyoGameManager.Manager.Graphics.PreferredBackBufferHeight = Height;
+
+            AyoGameManager.Manager.InitializeDefaultGameSystemEntities();
 
             _title = Title;
             
@@ -84,6 +81,7 @@ namespace AyoLib
 
             _currentScene.Update(gameTime);
 
+            AyoGameManager.Manager.UpdateGameSystemEntities(gameTime);
 
             base.Update(gameTime);
         }

@@ -17,11 +17,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\BasicScene.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\Entity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\AyoScene.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\GameSystemEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\Graphic.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Inputs\Input.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Content\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Entities\" />
     <Folder Include="$(MSBuildThisFileDirectory)Utilities\" />
   </ItemGroup>
   <ItemGroup>

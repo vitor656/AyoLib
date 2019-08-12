@@ -18,6 +18,14 @@ namespace AyoLib.Inputs
         private static MouseState _previousMouseState;
         private static MouseState _mouseState;
 
+        public static Vector2 MousePosition
+        {
+            get
+            {
+                return GetMousePositionOnScreen();
+            }
+        }
+
         public override void Update(GameTime gameTime)
         {
             _previousKeyboardState = _keyboardState;
@@ -94,9 +102,24 @@ namespace AyoLib.Inputs
             return keyPressed;
         }
 
+        public static bool IsMouseButtonPressed()
+        {
+            bool buttonPressed = false;
+            if(_mouseState != null && _previousMouseState != null)
+            {
+                if(_mouseState.LeftButton == ButtonState.Pressed && _previousMouseState.LeftButton == ButtonState.Released)
+                {
+                    buttonPressed = true;
+                }
+            }
+
+            return buttonPressed;
+        }
+
         public static Vector2 GetMousePositionOnScreen()
         {
             return _mouseState.Position.ToVector2();
         }
+
     }
 }

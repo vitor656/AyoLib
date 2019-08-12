@@ -1,4 +1,5 @@
-﻿using AyoLib.Graphics;
+﻿using AyoLib.Colliders;
+using AyoLib.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -23,8 +24,13 @@ namespace AyoLib
         public float RotationSpeed = 0f;
         public float LinearSpeed = 0f;
 
+        public float LifeSpan = 0f;
+
+        public Collider HitBox { get; private set; }
+
         private Graphic _graphic;
         private float _rotation;
+        private float _timer = 0f;
 
         public float X
         {
@@ -76,6 +82,16 @@ namespace AyoLib
 
             Direction = new Vector2( (float) Math.Cos(_rotation), (float) Math.Sin(_rotation));
             Position += Direction * LinearSpeed;
+
+            _timer += (float) gameTime.ElapsedGameTime.TotalSeconds;
+            
+            if(LifeSpan > 0f)
+            {
+                if(_timer > LifeSpan)
+                {
+                    Kill();
+                }
+            }
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)
@@ -115,6 +131,11 @@ namespace AyoLib
         public Graphic GetGraphic()
         {
             return _graphic;
+        }
+
+        public void SetCollider(Collider collider)
+        {
+            HitBox = collider;
         }
 
         public void SetSpeed(Vector2 speed)
@@ -157,6 +178,11 @@ namespace AyoLib
         {
             Vector2 directionToLook = positionToLook - Position;
             _rotation = (float) Math.Atan2(directionToLook.Y, directionToLook.X);
+        }
+
+        public void LookAt(AyoBasic other)
+        {
+            LookAt(other.Position);
         }
 
         public object Clone()

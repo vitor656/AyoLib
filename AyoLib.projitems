@@ -22,6 +22,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Inputs\Input.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\MathUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\Utils.cs" />
+	<Compile Include="$(MSBuildThisFileDirectory)Colliders\Collider.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Content\" />

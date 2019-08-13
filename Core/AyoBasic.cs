@@ -76,15 +76,11 @@ namespace AyoLib
         public virtual void Update(GameTime gameTime)
         {
             Speed += Acceleration;
-            Position += Speed;
-
+            
             _rotation += MathHelper.ToRadians(RotationSpeed);
-
             Direction = new Vector2( (float) Math.Cos(_rotation), (float) Math.Sin(_rotation));
-            Position += Direction * LinearSpeed;
 
             _timer += (float) gameTime.ElapsedGameTime.TotalSeconds;
-            
             if(LifeSpan > 0f)
             {
                 if(_timer > LifeSpan)
@@ -92,6 +88,14 @@ namespace AyoLib
                     Kill();
                 }
             }
+
+            if(HitBox != null)
+            {
+                HitBox.Update(gameTime);
+            }
+
+            Position += Speed;
+            Position += Direction * LinearSpeed;
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)
@@ -108,7 +112,11 @@ namespace AyoLib
                     effects: SpriteEffects.None,
                     layerDepth: 0f
                 );
-                
+            }
+
+            if(HitBox != null)
+            {
+                HitBox.Draw(spriteBatch);
             }
             
         }
@@ -135,6 +143,7 @@ namespace AyoLib
 
         public void SetCollider(Collider collider)
         {
+            collider.Initialize(this);
             HitBox = collider;
         }
 

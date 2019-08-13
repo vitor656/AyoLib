@@ -54,18 +54,22 @@ namespace AyoLib.Colliders
 
         private void CheckCollisionsWithRegisteredObjects()
         {
+            Vector2 NormalizedSpeed = Owner.Speed;
+            NormalizedSpeed.Normalize();
+
             foreach (var other in _others.ToArray())
             {
-                if(Owner.Speed.X > 0 && IsTouchingLeft(other) || Owner.Speed.X < 0 && IsTouchingRight(other))
+                if (NormalizedSpeed.X > 0 && IsTouchingLeft(other) || NormalizedSpeed.X < 0 && IsTouchingRight(other))
                 {
                     Owner.SetXSpeed(0f);
                 }
 
-                if(Owner.Speed.Y > 0 && IsTouchingTop(other) || Owner.Speed.Y < 0 && IsTouchingBottom(other))
+                if (NormalizedSpeed.Y > 0 && IsTouchingTop(other) || NormalizedSpeed.Y < 0 && IsTouchingBottom(other))
                 {
                     Owner.SetYSpeed(0f);
                 }
             }
+            
         }
 
         private void CheckCollisions()
@@ -84,7 +88,10 @@ namespace AyoLib.Colliders
 
         public bool IsTouchingLeft(AyoBasic other)
         {
-            return Bounds.Right + Owner.Speed.X > other.HitBox.Bounds.Left &&
+            Vector2 NormalizedSpeed = Owner.Speed;
+            NormalizedSpeed.Normalize();
+
+            return Bounds.Right + NormalizedSpeed.X + 2 > other.HitBox.Bounds.Left &&
                    Bounds.Left < other.HitBox.Bounds.Left &&
                    Bounds.Bottom > other.HitBox.Bounds.Top &&
                    Bounds.Top < other.HitBox.Bounds.Bottom;
@@ -93,7 +100,10 @@ namespace AyoLib.Colliders
 
         public bool IsTouchingRight(AyoBasic other)
         {
-            return Bounds.Left + Owner.Speed.X < other.HitBox.Bounds.Right &&
+            Vector2 NormalizedSpeed = Owner.Speed;
+            NormalizedSpeed.Normalize();
+
+            return Bounds.Left + NormalizedSpeed.X - 2 < other.HitBox.Bounds.Right &&
                    Bounds.Right > other.HitBox.Bounds.Right &&
                    Bounds.Bottom > other.HitBox.Bounds.Top &&
                    Bounds.Top < other.HitBox.Bounds.Bottom;
@@ -102,7 +112,10 @@ namespace AyoLib.Colliders
 
         public bool IsTouchingTop(AyoBasic other)
         {
-            return Bounds.Bottom + Owner.Speed.Y > other.HitBox.Bounds.Top &&
+            Vector2 NormalizedSpeed = Owner.Speed;
+            NormalizedSpeed.Normalize();
+
+            return Bounds.Bottom + NormalizedSpeed.Y + 2 > other.HitBox.Bounds.Top &&
                    Bounds.Top < other.HitBox.Bounds.Top &&
                    Bounds.Right > other.HitBox.Bounds.Left &&
                    Bounds.Left < other.HitBox.Bounds.Right;
@@ -111,7 +124,10 @@ namespace AyoLib.Colliders
 
         public bool IsTouchingBottom(AyoBasic other)
         {
-            return Bounds.Top + Owner.Speed.Y < other.HitBox.Bounds.Bottom &&
+            Vector2 NormalizedSpeed = Owner.Speed;
+            NormalizedSpeed.Normalize();
+
+            return Bounds.Top + NormalizedSpeed.Y - 2 < other.HitBox.Bounds.Bottom &&
                    Bounds.Bottom > other.HitBox.Bounds.Bottom &&
                    Bounds.Right > other.HitBox.Bounds.Left &&
                    Bounds.Left < other.HitBox.Bounds.Right;

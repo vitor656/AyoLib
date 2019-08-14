@@ -10,6 +10,7 @@ namespace AyoLib
 {
     public class AyoBasic : ICloneable
     {
+        public string Name { get; set; }
         public string Tag { get; set; }
         
         public bool Active = true;
@@ -28,7 +29,7 @@ namespace AyoLib
 
         public Collider HitBox { get; private set; }
 
-        private Graphic _graphic;
+        public Graphic Graphic { get; private set; }
         private float _rotation;
         private float _timer = 0f;
 
@@ -64,7 +65,7 @@ namespace AyoLib
 
         public AyoBasic(Graphic graphic, float x, float y)
         {
-            _graphic = graphic;
+            Graphic = graphic;
 
             Position = new Vector2
             {
@@ -100,11 +101,11 @@ namespace AyoLib
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            if(_graphic != null)
+            if(Graphic != null)
             {
                 spriteBatch.Draw(
-                    texture: _graphic.Texture2D, 
-                    destinationRectangle: new Rectangle((int)Position.X, (int)Position.Y, _graphic.Width, _graphic.Height), 
+                    texture: Graphic.Texture2D, 
+                    destinationRectangle: new Rectangle((int)Position.X, (int)Position.Y, Graphic.Width, Graphic.Height), 
                     sourceRectangle: null,
                     color: Color.White,
                     rotation: _rotation,
@@ -123,22 +124,17 @@ namespace AyoLib
 
         public void SetGraphic(Graphic graphic)
         {
-            _graphic = graphic;
+            Graphic = graphic;
         }
 
         public void SetGraphic(string graphicName)
         {
-            _graphic = new Graphic(AyoGame.CurrentGame.Content.Load<Texture2D>(graphicName));
+            Graphic = new Graphic(AyoGame.CurrentGame.Content.Load<Texture2D>(graphicName));
         }
 
         public void SetGraphic(string graphicName, int width, int height)
         {
-            _graphic = new Graphic(AyoGame.CurrentGame.Content.Load<Texture2D>(graphicName), width, height);
-        }
-
-        public Graphic GetGraphic()
-        {
-            return _graphic;
+            Graphic = new Graphic(AyoGame.CurrentGame.Content.Load<Texture2D>(graphicName), width, height);
         }
 
         public void SetCollider(Collider collider)
@@ -164,9 +160,9 @@ namespace AyoLib
 
         public void CenterOrigin()
         {
-            if(_graphic != null)
+            if(Graphic != null)
             {
-                Origin = new Vector2(_graphic.Width / 2, _graphic.Height / 2);
+                Origin = new Vector2(Graphic.Width / 2, Graphic.Height / 2);
             } 
         }
 
@@ -204,5 +200,6 @@ namespace AyoLib
             Active = false;
             Visible = false;
         }
+
     }
 }

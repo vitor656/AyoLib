@@ -9,81 +9,78 @@ namespace AyoLib.Colliders
     public class Collider
     {
         protected AyoBasic Owner;
+
         public Rectangle Bounds
         {
             get
             {
-                return new Rectangle((int)Owner.Position.X, (int)Owner.Position.Y, Owner.GetGraphic().Width, Owner.GetGraphic().Height);
+                return new Rectangle((int)Owner.Position.X, (int)Owner.Position.Y, Width, Height);
             }
         }
 
-        public int Width;
-        public int Height;
+        public int Width { get; set; }
+        public int Height { get; set; }
 
-        private Dictionary<AyoBasic, Action> _objectsToCollideWith;
+        public bool ShowCollider = false;
+
+        private Dictionary<AyoBasic, Action> _otherWhileOverlapping;
         private List<AyoBasic> _others;
+
+        public Collider()
+        {
+
+        }
+
+        public Collider(int width, int height)
+        {
+            Width = width;
+            Height = height;
+        }
 
         public void Initialize(AyoBasic owner)
         {
             Owner = owner;
 
-            _objectsToCollideWith = new Dictionary<AyoBasic, Action>();
+            _otherWhileOverlapping = new Dictionary<AyoBasic, Action>();
             _others = new List<AyoBasic>();
+
+            if(Width == 0 && Height == 0)
+            {
+                if(Owner.Graphic != null)
+                {
+                    Width = Owner.Graphic.Width;
+                    Height = Owner.Graphic.Height;
+                }
+            }
         }
 
         public virtual void Update(GameTime gameTime)
         {
-            CheckCollisions();
+            CheckIsOverlappingList();
             CheckCollisionsWithRegisteredObjects();
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            
+            if(ShowCollider)
+            {
+                int thickness = 2;
+
+                Texture2D colliderTexture = new Texture2D(AyoGame.CurrentGame.GraphicsDevice, 1, 1);
+                colliderTexture.SetData(new[] { Color.White });
+
+                spriteBatch.Draw(colliderTexture, Bounds, Color.Red);
+            }
         }
 
-        public void Intersects(AyoBasic other, Action Callback)
+        public void WhileOverlapping(AyoBasic other, Action Callback)
         {
-            _objectsToCollideWith.Add(other, Callback);
+            _otherWhileOverlapping.Add(other, Callback);
         }
 
         public void RegisterCollisionWith(AyoBasic other)
         {
             _others.Add(other);
-        }
-
-        private void CheckCollisionsWithRegisteredObjects()
-        {
-            Vector2 NormalizedSpeed = Owner.Speed;
-            NormalizedSpeed.Normalize();
-
-            foreach (var other in _others.ToArray())
-            {
-                if (NormalizedSpeed.X > 0 && IsTouchingLeft(other) || NormalizedSpeed.X < 0 && IsTouchingRight(other))
-                {
-                    Owner.SetXSpeed(0f);
-                }
-
-                if (NormalizedSpeed.Y > 0 && IsTouchingTop(other) || NormalizedSpeed.Y < 0 && IsTouchingBottom(other))
-                {
-                    Owner.SetYSpeed(0f);
-                }
-            }
-            
-        }
-
-        private void CheckCollisions()
-        {
-            foreach (var obj in _objectsToCollideWith)
-            {
-                if(obj.Key.HitBox != null)
-                {
-                    if(Bounds.Intersects(obj.Key.HitBox.Bounds))
-                    {
-                        obj.Value();
-                    }
-                }
-            }
         }
 
         public bool IsTouchingLeft(AyoBasic other)
@@ -133,5 +130,41 @@ namespace AyoLib.Colliders
                    Bounds.Left < other.HitBox.Bounds.Right;
 
         }
+
+        private void CheckIsOverlappingList()
+        {
+            foreach (var obj in _otherWhileOverlapping)
+            {
+                if (obj.Key.HitBox != null)
+                {
+                    if (Bounds.Intersects(obj.Key.HitBox.Bounds))
+                    {
+                        obj.Value();
+                    }
+                }
+            }
+        }
+
+        private void CheckCollisionsWithRegisteredObjects()
+        {
+            Vector2 NormalizedSpeed = Owner.Speed;
+            NormalizedSpeed.Normalize();
+
+            foreach (var other in _others.ToArray())
+            {
+                if (NormalizedSpeed.X > 0 && IsTouchingLeft(other) || NormalizedSpeed.X < 0 && IsTouchingRight(other))
+                {
+                    Owner.SetXSpeed(0f);
+                }
+
+                if (NormalizedSpeed.Y > 0 && IsTouchingTop(other) || NormalizedSpeed.Y < 0 && IsTouchingBottom(other))
+                {
+                    Owner.SetYSpeed(0f);
+                }
+            }
+
+        }
+
+
     }
 }

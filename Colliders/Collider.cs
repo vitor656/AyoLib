@@ -109,7 +109,7 @@ namespace AyoLib.Colliders
                 }
                 else if(ColliderDisplayMode == ColliderDisplayMode.Fill)
                 {
-                    spriteBatch.Draw(colliderTexture, Bounds, Color.Red);
+                    spriteBatch.Draw(colliderTexture, Bounds, new Color(255f, 0, 0, 0.5f));
                 }
             }
         }

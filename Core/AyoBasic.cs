@@ -97,6 +97,8 @@ namespace AyoLib
 
             Position += Speed;
             Position += Direction * LinearSpeed;
+
+            Speed = Vector2.Zero;
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)

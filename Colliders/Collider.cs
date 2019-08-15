@@ -6,22 +6,53 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace AyoLib.Colliders
 {
+    
+    public enum ColliderDisplayMode
+    {
+        Border,
+        Fill
+    }
+
     public class Collider
     {
+
         protected AyoBasic Owner;
+
+        
+        public int Width { get; set; }
+        public int Height { get; set; }
+
+        public Vector2 Origin {
+            get
+            {
+                if(Owner != null)
+                {
+                    return Owner.Position - Owner.Origin;
+                }
+                else
+                {
+                    return Vector2.Zero;
+                }
+                
+            }
+
+            set
+            {
+                Origin = value;
+            }
+        }
 
         public Rectangle Bounds
         {
             get
             {
-                return new Rectangle((int)Owner.Position.X, (int)Owner.Position.Y, Width, Height);
+                return new Rectangle((int)Origin.X, (int)Origin.Y, Width, Height);
             }
         }
 
-        public int Width { get; set; }
-        public int Height { get; set; }
 
-        public bool ShowCollider = false;
+        public bool ShowCollider = true;
+        public ColliderDisplayMode ColliderDisplayMode = ColliderDisplayMode.Fill;
 
         private Dictionary<AyoBasic, Action> _otherWhileOverlapping;
         private List<AyoBasic> _others;
@@ -64,12 +95,22 @@ namespace AyoLib.Colliders
         {
             if(ShowCollider)
             {
-                int thickness = 2;
-
                 Texture2D colliderTexture = new Texture2D(AyoGame.CurrentGame.GraphicsDevice, 1, 1);
                 colliderTexture.SetData(new[] { Color.White });
 
-                spriteBatch.Draw(colliderTexture, Bounds, Color.Red);
+                if (ColliderDisplayMode == ColliderDisplayMode.Border)
+                {
+                    int thickness = 1;
+
+                    spriteBatch.Draw(colliderTexture, new Rectangle(Bounds.X, Bounds.Y, Bounds.Width, thickness), Color.Red);
+                    spriteBatch.Draw(colliderTexture, new Rectangle(Bounds.X, Bounds.Y, thickness, Bounds.Height), Color.Red);
+                    spriteBatch.Draw(colliderTexture, new Rectangle(Bounds.X + Bounds.Width, Bounds.Y, thickness, Bounds.Height), Color.Red);
+                    spriteBatch.Draw(colliderTexture, new Rectangle(Bounds.X, Bounds.Y + Bounds.Height, Bounds.Width, thickness), Color.Red);
+                }
+                else if(ColliderDisplayMode == ColliderDisplayMode.Fill)
+                {
+                    spriteBatch.Draw(colliderTexture, Bounds, Color.Red);
+                }
             }
         }
 
@@ -85,10 +126,7 @@ namespace AyoLib.Colliders
 
         public bool IsTouchingLeft(AyoBasic other)
         {
-            Vector2 NormalizedSpeed = Owner.Speed;
-            NormalizedSpeed.Normalize();
-
-            return Bounds.Right + NormalizedSpeed.X + 2 > other.HitBox.Bounds.Left &&
+            return Bounds.Right + Owner.Speed.X > other.HitBox.Bounds.Left &&
                    Bounds.Left < other.HitBox.Bounds.Left &&
                    Bounds.Bottom > other.HitBox.Bounds.Top &&
                    Bounds.Top < other.HitBox.Bounds.Bottom;
@@ -97,10 +135,7 @@ namespace AyoLib.Colliders
 
         public bool IsTouchingRight(AyoBasic other)
         {
-            Vector2 NormalizedSpeed = Owner.Speed;
-            NormalizedSpeed.Normalize();
-
-            return Bounds.Left + NormalizedSpeed.X - 2 < other.HitBox.Bounds.Right &&
+            return Bounds.Left + Owner.Speed.X < other.HitBox.Bounds.Right &&
                    Bounds.Right > other.HitBox.Bounds.Right &&
                    Bounds.Bottom > other.HitBox.Bounds.Top &&
                    Bounds.Top < other.HitBox.Bounds.Bottom;
@@ -109,10 +144,7 @@ namespace AyoLib.Colliders
 
         public bool IsTouchingTop(AyoBasic other)
         {
-            Vector2 NormalizedSpeed = Owner.Speed;
-            NormalizedSpeed.Normalize();
-
-            return Bounds.Bottom + NormalizedSpeed.Y + 2 > other.HitBox.Bounds.Top &&
+            return Bounds.Bottom + Owner.Speed.Y > other.HitBox.Bounds.Top &&
                    Bounds.Top < other.HitBox.Bounds.Top &&
                    Bounds.Right > other.HitBox.Bounds.Left &&
                    Bounds.Left < other.HitBox.Bounds.Right;
@@ -121,10 +153,7 @@ namespace AyoLib.Colliders
 
         public bool IsTouchingBottom(AyoBasic other)
         {
-            Vector2 NormalizedSpeed = Owner.Speed;
-            NormalizedSpeed.Normalize();
-
-            return Bounds.Top + NormalizedSpeed.Y - 2 < other.HitBox.Bounds.Bottom &&
+            return Bounds.Top + Owner.Speed.Y < other.HitBox.Bounds.Bottom &&
                    Bounds.Bottom > other.HitBox.Bounds.Bottom &&
                    Bounds.Right > other.HitBox.Bounds.Left &&
                    Bounds.Left < other.HitBox.Bounds.Right;
@@ -147,22 +176,18 @@ namespace AyoLib.Colliders
 
         private void CheckCollisionsWithRegisteredObjects()
         {
-            Vector2 NormalizedSpeed = Owner.Speed;
-            NormalizedSpeed.Normalize();
-
             foreach (var other in _others.ToArray())
             {
-                if (NormalizedSpeed.X > 0 && IsTouchingLeft(other) || NormalizedSpeed.X < 0 && IsTouchingRight(other))
+                if (Owner.Speed.X > 0 && IsTouchingLeft(other) || Owner.Speed.X < 0 && IsTouchingRight(other))
                 {
                     Owner.SetXSpeed(0f);
                 }
 
-                if (NormalizedSpeed.Y > 0 && IsTouchingTop(other) || NormalizedSpeed.Y < 0 && IsTouchingBottom(other))
+                if (Owner.Speed.Y > 0 && IsTouchingTop(other) || Owner.Speed.Y < 0 && IsTouchingBottom(other))
                 {
                     Owner.SetYSpeed(0f);
                 }
             }
-
         }
 
 

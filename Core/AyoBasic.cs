@@ -30,6 +30,8 @@ namespace AyoLib
         public Collider HitBox { get; private set; }
 
         public Graphic Graphic { get; private set; }
+        public List<Animation> Animations;
+
         private float _rotation;
         private float _timer = 0f;
 
@@ -203,5 +205,12 @@ namespace AyoLib
             Visible = false;
         }
 
+        public void AddAnimation(string name, int[] framesArray, bool isLoop = true)
+        {
+            if (Animations == null)
+                Animations = new List<Animation>();
+
+            Animations.Add(new Animation(name, framesArray, isLoop));
+        }
     }
 }

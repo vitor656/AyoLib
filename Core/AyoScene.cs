@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using AyoLib.Entities;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -8,42 +9,26 @@ namespace AyoLib
 {
     public class AyoScene
     {
-        private List<AyoBasic> _entities;
+        public AyoBasicEntitiesManager EntitiesManager = new AyoBasicEntitiesManager();
         
         public virtual void Initialize()
         {
-            if (_entities == null)
-            {
-                _entities = new List<AyoBasic>();
-            }
+            EntitiesManager.Initialize();
         }
 
         public virtual void Update(GameTime gameTime)
         {
-            if(_entities == null)
-            {
-                _entities = new List<AyoBasic>();
-            }
-
-            foreach (var entity in _entities.ToArray())
-            {
-                if(entity.Active)
-                    entity.Update(gameTime);
-            }
+            EntitiesManager.Update(gameTime);
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            foreach (var entity in _entities)
-            {
-                if(entity.Visible)
-                    entity.Draw(spriteBatch);
-            }
+            EntitiesManager.Draw(spriteBatch);
         }
 
         public void Add(AyoBasic entity)
         {
-            _entities.Add(entity);
+            EntitiesManager.Add(entity);
         }
     }
 }

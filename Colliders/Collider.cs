@@ -51,7 +51,7 @@ namespace AyoLib.Colliders
         }
 
 
-        public bool ShowCollider = true;
+        public bool ShowCollider = false;
         public ColliderDisplayMode ColliderDisplayMode = ColliderDisplayMode.Fill;
 
         private Dictionary<AyoBasic, Action> _otherWhileOverlapping;

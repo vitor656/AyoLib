@@ -18,6 +18,8 @@ namespace AyoLib
             
         public Vector2 Position = Vector2.Zero;
         public Vector2 Origin = Vector2.Zero;
+        public Vector2 Scale = Vector2.One;
+
         public Vector2 Speed = Vector2.Zero;
         public Vector2 Acceleration = Vector2.Zero;
 
@@ -32,7 +34,7 @@ namespace AyoLib
         public Graphic Graphic { get; private set; }
         public List<Animation> Animations;
 
-        private float _rotation;
+        public float Rotation { get; private set; }
         private float _timer = 0f;
 
         public float X
@@ -47,41 +49,12 @@ namespace AyoLib
             set { Position.Y = value; }
         }
 
-        public AyoBasic()
-        {
-            Position = Vector2.Zero;
-        }
-
-        public AyoBasic(Vector2 position)
-        {
-            Position = position;
-        }
-
-        public AyoBasic(float x, float y)
-        {
-            Position = new Vector2 {
-                X = x,
-                Y = y
-            };
-        }
-
-        public AyoBasic(Graphic graphic, float x, float y)
-        {
-            Graphic = graphic;
-
-            Position = new Vector2
-            {
-                X = x,
-                Y = y
-            };
-        }
-
         public virtual void Update(GameTime gameTime)
         {
             Speed += Acceleration;
-            
-            _rotation += MathHelper.ToRadians(RotationSpeed);
-            Direction = new Vector2( (float) Math.Cos(_rotation), (float) Math.Sin(_rotation));
+
+            Rotation += MathHelper.ToRadians(RotationSpeed);
+            Direction = new Vector2( (float) Math.Cos(Rotation), (float) Math.Sin(Rotation));
 
             _timer += (float) gameTime.ElapsedGameTime.TotalSeconds;
             if(LifeSpan > 0f)
@@ -109,12 +82,13 @@ namespace AyoLib
             {
                 spriteBatch.Draw(
                     texture: Graphic.Texture2D, 
-                    destinationRectangle: new Rectangle((int)Position.X, (int)Position.Y, Graphic.Width, Graphic.Height), 
-                    sourceRectangle: null,
-                    color: Color.White,
-                    rotation: _rotation,
-                    origin: Origin,
-                    effects: SpriteEffects.None,
+                    position: Position, 
+                    sourceRectangle: null, 
+                    color: Color.White, 
+                    rotation: Rotation, 
+                    origin: Origin, 
+                    scale: Scale, 
+                    effects: SpriteEffects.None, 
                     layerDepth: 0f
                 );
             }
@@ -180,13 +154,13 @@ namespace AyoLib
 
         public void Rotate(float degrees)
         {
-            _rotation += MathHelper.ToRadians(degrees);
+            Rotation += MathHelper.ToRadians(degrees);
         }
 
         public void LookAt(Vector2 positionToLook)
         {
             Vector2 directionToLook = positionToLook - Position;
-            _rotation = (float) Math.Atan2(directionToLook.Y, directionToLook.X);
+            Rotation = (float) Math.Atan2(directionToLook.Y, directionToLook.X);
         }
 
         public void LookAt(AyoBasic other)

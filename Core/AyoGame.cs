@@ -18,6 +18,7 @@ namespace AyoLib
         {
             CurrentGame = this;
             Content.RootDirectory = "Content";
+            
 
             AyoGameManager.Manager.Graphics = new GraphicsDeviceManager(this);
             AyoGameManager.Manager.Graphics.IsFullScreen = FullScreen;

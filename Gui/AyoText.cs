@@ -37,7 +37,7 @@ namespace AyoLib.Gui
         public override void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
-
+            Console.WriteLine(Text);
             spriteBatch.DrawString(
                 spriteFont: SpriteFont, 
                 text: Text, 

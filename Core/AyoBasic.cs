@@ -32,6 +32,7 @@ namespace AyoLib
         public Collider HitBox { get; private set; }
 
         public Graphic Graphic { get; private set; }
+        public Animator Animator { get; private set; }
         public List<Animation> Animations;
 
         public float Rotation { get; private set; }
@@ -184,7 +185,7 @@ namespace AyoLib
             if (Animations == null)
                 Animations = new List<Animation>();
 
-            Animations.Add(new Animation(name, framesArray, isLoop));
+            Animations.Add(new Animation(name, framesArray, isLoop, 1));
         }
     }
 }

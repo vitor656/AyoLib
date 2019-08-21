@@ -92,7 +92,7 @@ namespace AyoLib
                     spriteBatch.Draw(
                         texture: Graphic.Texture2D,
                         position: Position,
-                        sourceRectangle: null,
+                        sourceRectangle: new Rectangle((int)Position.X, (int)Position.Y, Graphic.Width, Graphic.Height),
                         color: Color.White,
                         rotation: Rotation,
                         origin: Origin,

@@ -33,7 +33,6 @@ namespace AyoLib
 
         public Graphic Graphic { get; private set; }
         public Animator Animator { get; private set; }
-        public List<Animation> Animations;
 
         public float Rotation { get; private set; }
         private float _timer = 0f;
@@ -75,23 +74,33 @@ namespace AyoLib
             Position += Direction * LinearSpeed;
 
             Speed = Vector2.Zero;
+
+            if (Animator != null)
+                Animator.Update(gameTime);
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             if(Graphic != null)
             {
-                spriteBatch.Draw(
-                    texture: Graphic.Texture2D, 
-                    position: Position, 
-                    sourceRectangle: null, 
-                    color: Color.White, 
-                    rotation: Rotation, 
-                    origin: Origin, 
-                    scale: Scale, 
-                    effects: SpriteEffects.None, 
-                    layerDepth: 0f
-                );
+                if(Animator != null)
+                {
+                    Animator.Draw(spriteBatch);
+                }
+                else
+                {
+                    spriteBatch.Draw(
+                        texture: Graphic.Texture2D,
+                        position: Position,
+                        sourceRectangle: null,
+                        color: Color.White,
+                        rotation: Rotation,
+                        origin: Origin,
+                        scale: Scale,
+                        effects: SpriteEffects.None,
+                        layerDepth: 0f
+                    );
+                }
             }
 
             if(HitBox != null)
@@ -180,12 +189,12 @@ namespace AyoLib
             Visible = false;
         }
 
-        public void AddAnimation(string name, int[] framesArray, bool isLoop = true)
+        public void AddAnimation(string name, int[] framesArray, bool isLoop = true, int frameSpeed = 1)
         {
-            if (Animations == null)
-                Animations = new List<Animation>();
+            if (Animator == null)
+                Animator = new Animator(this);
 
-            Animations.Add(new Animation(name, framesArray, isLoop, 1));
+            Animator.Animations.Add(new Animation(name, framesArray, isLoop, frameSpeed));
         }
     }
 }

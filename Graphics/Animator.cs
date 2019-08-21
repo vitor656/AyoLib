@@ -8,20 +8,26 @@ namespace AyoLib.Graphics
 {
     public class Animator
     {
+        public AyoBasic Owner { get; private set; }
+
         public Animation CurrentAnimation { get; private set; }
         public int CurrentFrame { get; private set; }
         public int FrameCount { get; private set; }
-        public int FrameHeight { get; private set; }
-        public int FrameWidth { get; private set; }
-        public int FrameSpeed { get; set; }
+
+        public List<Animation> Animations = new List<Animation>();
 
         private float _timer;
+
+        public Animator(AyoBasic owner)
+        {
+            Owner = owner;
+        }
 
         public void Update(GameTime gameTime)
         {
             _timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            if(_timer > FrameSpeed)
+            if(_timer > CurrentAnimation.FrameSpeed)
             {
                 _timer = 0;
                 CurrentFrame++;
@@ -33,12 +39,12 @@ namespace AyoLib.Graphics
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch, AyoBasic Owner)
+        public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(
                 Owner.Graphic.Texture2D,
                 Owner.Position,
-                new Rectangle(CurrentFrame * FrameWidth, 0, FrameWidth, FrameHeight),
+                new Rectangle(CurrentFrame * Owner.Graphic.Width, 0, Owner.Graphic.Width, Owner.Graphic.Height),
                 Color.White
             );
         }

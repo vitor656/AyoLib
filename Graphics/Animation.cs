@@ -8,10 +8,10 @@ namespace AyoLib.Graphics
     {
         public string Name { get; private set; }
         public int[] FramesArray { get; private set; }
-        public int FrameSpeed { get; set; }
+        public float FrameSpeed { get; set; }
         public bool IsLoop { get; set; }
 
-        public Animation(string name, int[] framesArray, bool isLoop, int frameSpeed)
+        public Animation(string name, int[] framesArray, bool isLoop, float frameSpeed)
         {
             Name = name;
             FramesArray = framesArray;

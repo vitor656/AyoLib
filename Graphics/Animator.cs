@@ -12,7 +12,6 @@ namespace AyoLib.Graphics
 
         public Animation CurrentAnimation { get; private set; }
         public int CurrentFrame { get; private set; }
-        public int FrameCount { get; private set; }
 
         public List<Animation> Animations = new List<Animation>();
 
@@ -34,10 +33,11 @@ namespace AyoLib.Graphics
                     _timer = 0;
                     CurrentFrame++;
 
-                    if (CurrentFrame >= FrameCount)
+                    if (CurrentFrame >= CurrentAnimation.FramesArray.Length)
                     {
                         CurrentFrame = 0;
                     }
+                    
                 }
             }
 

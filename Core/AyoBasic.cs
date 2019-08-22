@@ -189,7 +189,7 @@ namespace AyoLib
             Visible = false;
         }
 
-        public void AddAnimation(string name, int[] framesArray, bool isLoop = true, int frameSpeed = 1)
+        public void AddAnimation(string name, int[] framesArray, bool isLoop = true, float frameSpeed = 1)
         {
             if (Animator == null)
                 Animator = new Animator(this);

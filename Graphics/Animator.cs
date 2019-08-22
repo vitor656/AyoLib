@@ -25,18 +25,22 @@ namespace AyoLib.Graphics
 
         public void Update(GameTime gameTime)
         {
-            _timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-            if(_timer > CurrentAnimation.FrameSpeed)
+            if(CurrentAnimation != null)
             {
-                _timer = 0;
-                CurrentFrame++;
+                _timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-                if(CurrentFrame >= FrameCount)
+                if (_timer > CurrentAnimation.FrameSpeed)
                 {
-                    CurrentFrame = 0;
+                    _timer = 0;
+                    CurrentFrame++;
+
+                    if (CurrentFrame >= FrameCount)
+                    {
+                        CurrentFrame = 0;
+                    }
                 }
             }
+
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -49,8 +53,9 @@ namespace AyoLib.Graphics
             );
         }
 
-        public void Play(Animation animation)
+        public void Play(string animationName)
         {
+            Animation animation = Animations.Find(a => a.Name == animationName);
             if (CurrentAnimation == animation)
                 return;
 

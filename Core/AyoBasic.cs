@@ -189,12 +189,13 @@ namespace AyoLib
             Visible = false;
         }
 
-        public void AddAnimation(string name, int[] framesArray, bool isLoop = true, float frameSpeed = 1)
+        public void AddAnimation(string name, int[] framesArray = null, bool isLoop = true, float frameDuration = 0.25f)
         {
             if (Animator == null)
                 Animator = new Animator(this);
 
-            Animator.Animations.Add(new Animation(name, framesArray, isLoop, frameSpeed));
+            Animator.AddAnimation(new Animation(name, framesArray, isLoop, frameDuration));
+
         }
     }
 }

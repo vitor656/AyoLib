@@ -20,12 +20,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)Entities\Entity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\AyoScene.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\GameSystemEntity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\Services\TimerService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\Animation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\Animator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\Graphic.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Gui\AyoText.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Inputs\Input.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\MathUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Timer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\Utils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Colliders\Collider.cs" />
   </ItemGroup>

@@ -4,7 +4,7 @@
   <Platform>Windows</Platform>
   <Config />
   <SourceFiles>
-    <File>C:/Users/vitor.araujo/repos/AyoLib/Content/AyoFont.spritefont</File>
+    <File>C:/Users/vitor/source/repos/AyoLib/Content/AyoFont.spritefont</File>
   </SourceFiles>
   <DestFiles>
     <File xsi:nil="true" />

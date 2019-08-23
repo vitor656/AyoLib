@@ -1,4 +1,5 @@
 ﻿using AyoLib.Entities;
+using AyoLib.Entities.Services;
 using AyoLib.Inputs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -28,6 +29,7 @@ namespace AyoLib
         public void InitializeDefaultGameSystemEntities()
         {
             GameSystemEntities.Add(new Input());
+            GameSystemEntities.Add(new TimerService());
         }
 
         public void UpdateGameSystemEntities(GameTime gameTime)

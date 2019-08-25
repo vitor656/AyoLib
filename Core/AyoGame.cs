@@ -9,32 +9,50 @@ namespace AyoLib
 {
     public class AyoGame : Game
     {
-        private string _title;
-        private AyoScene _currentScene;
-
         public static AyoGame CurrentGame;
 
-        public AyoGame(AyoScene StartingScene = null, string Title = "AyoGame", int Width = 320, int Height = 180, bool FullScreen = false)
+        public static int ResolutionWidth { get; private set; }
+        public static int ResolutionHeight { get; private set; }
+        public static int WindowWidth { get; private set; }
+        public static int WindowHeight { get; private set; }
+
+        private string _title;
+        private AyoScene _currentScene;
+        private VirtualScreen _virtualScreen;
+        
+        public AyoGame(
+            AyoScene startingScene = null, 
+            string title = "AyoGame", 
+            int resolutionWidth = 320, 
+            int resolutionHeight = 180, 
+            int windowWidth = 640, 
+            int windowHeight = 360, 
+            bool fullScreen = false)
         {
             CurrentGame = this;
             Content.RootDirectory = "Content";
-            
+
+            ResolutionWidth = resolutionWidth;
+            ResolutionHeight = resolutionHeight;
+
+            WindowWidth = windowWidth;
+            WindowHeight = windowHeight;
 
             AyoGameManager.Manager.Graphics = new GraphicsDeviceManager(this);
-            AyoGameManager.Manager.Graphics.IsFullScreen = FullScreen;
-            AyoGameManager.Manager.Graphics.PreferredBackBufferWidth = Width;
-            AyoGameManager.Manager.Graphics.PreferredBackBufferHeight = Height;
+            AyoGameManager.Manager.Graphics.IsFullScreen = fullScreen;
+            AyoGameManager.Manager.Graphics.PreferredBackBufferWidth = WindowWidth;
+            AyoGameManager.Manager.Graphics.PreferredBackBufferHeight = WindowHeight;
 
             AyoGameManager.Manager.InitializeDefaultGameSystemEntities();
 
-            _title = Title;
+            _title = title;
             
-            if (StartingScene == null)
+            if (startingScene == null)
             {
-                StartingScene = new BasicScene();
+                startingScene = new BasicScene();
             }
 
-            _currentScene = StartingScene;
+            _currentScene = startingScene;
         }
 
         /// <summary>
@@ -46,6 +64,8 @@ namespace AyoLib
         protected override void Initialize()
         {
             Window.Title = _title;
+
+            _virtualScreen = new VirtualScreen(AyoGame.CurrentGame.GraphicsDevice, ResolutionWidth, ResolutionHeight);
 
             _currentScene.Initialize();
             base.Initialize();
@@ -80,6 +100,7 @@ namespace AyoLib
             }
 #endif
 
+            _virtualScreen.Update(gameTime);
             _currentScene.Update(gameTime);
 
             AyoGameManager.Manager.UpdateGameSystemEntities(gameTime);
@@ -93,11 +114,31 @@ namespace AyoLib
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Black);
-
-            AyoGameManager.Manager.SpriteBatch.Begin();
+            //Drawing Render Target
+            _virtualScreen.InitRenderer();
+            AyoGameManager.Manager.SpriteBatch.Begin(
+                sortMode: SpriteSortMode.Deferred,
+                blendState: null,
+                samplerState: SamplerState.PointClamp,
+                depthStencilState: null,
+                rasterizerState: null,
+                effect: null,
+                transformMatrix: null
+            );
 
             _currentScene.Draw(AyoGameManager.Manager.SpriteBatch);
+
+            AyoGameManager.Manager.SpriteBatch.End();
+            _virtualScreen.ClearRenderer();
+
+
+
+            GraphicsDevice.Clear(Color.CornflowerBlue);
+
+            // Drawing BackBuffer
+            AyoGameManager.Manager.SpriteBatch.Begin();
+
+            _virtualScreen.Draw(AyoGameManager.Manager.SpriteBatch);
 
             AyoGameManager.Manager.SpriteBatch.End();
 
@@ -108,6 +149,7 @@ namespace AyoLib
         {
             return _currentScene;
         }
+
         
     }
 }

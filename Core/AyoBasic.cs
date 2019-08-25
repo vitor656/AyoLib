@@ -157,8 +157,8 @@ namespace AyoLib
         public void ScreenCenter()
         {
             Position = new Vector2(
-                AyoGameManager.Manager.Graphics.PreferredBackBufferWidth / 2,
-                AyoGameManager.Manager.Graphics.PreferredBackBufferHeight / 2
+                AyoGame.ResolutionWidth / 2,
+                AyoGame.ResolutionHeight / 2
             );
         }
 

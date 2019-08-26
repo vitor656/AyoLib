@@ -13,11 +13,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Components\LookAtMouse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\AyoBasic.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\AyoGame.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\AyoGameManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Managers\AyoGameManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\Component.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\BasicScene.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\VirtualScreen.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Entities\AyoBasicEntitiesManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Managers\AyoScenesManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Rendering\VirtualScreen.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Managers\AyoBasicEntitiesManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\Entity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\AyoScene.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\GameSystemEntity.cs" />
@@ -39,5 +40,8 @@
     <Content Include="$(MSBuildThisFileDirectory)Content\Content.mgcb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Rendering\" />
   </ItemGroup>
 </Project>

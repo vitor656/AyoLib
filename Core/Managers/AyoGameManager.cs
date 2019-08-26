@@ -1,4 +1,5 @@
-﻿using AyoLib.Entities;
+﻿using AyoLib.Core.Managers;
+using AyoLib.Entities;
 using AyoLib.Entities.Services;
 using AyoLib.Inputs;
 using Microsoft.Xna.Framework;
@@ -24,15 +25,33 @@ namespace AyoLib
         public SpriteBatch SpriteBatch;
         public GraphicsDeviceManager Graphics;
 
+        public AyoScenesManager AyoScenesManager = new AyoScenesManager();
         public List<GameSystemEntity> GameSystemEntities = new List<GameSystemEntity>();
 
-        public void InitializeDefaultGameSystemEntities()
+        public void Initialize()
+        {
+            AyoScenesManager.Initialize();
+            InitializeDefaultGameSystemEntities();
+        }
+
+        public void Update(GameTime gameTime)
+        {
+            AyoScenesManager.Update(gameTime);
+            UpdateGameSystemEntities(gameTime);
+        }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            AyoScenesManager.Draw(spriteBatch);
+        }
+
+        private void InitializeDefaultGameSystemEntities()
         {
             GameSystemEntities.Add(new Input());
             GameSystemEntities.Add(new TimerService());
         }
 
-        public void UpdateGameSystemEntities(GameTime gameTime)
+        private void UpdateGameSystemEntities(GameTime gameTime)
         {
             foreach (GameSystemEntity entity in GameSystemEntities)
             {

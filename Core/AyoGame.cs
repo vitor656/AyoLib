@@ -1,5 +1,6 @@
 ﻿using System;
 using AyoLib.Core;
+using AyoLib.Core.Managers;
 using AyoLib.Inputs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -15,9 +16,41 @@ namespace AyoLib
         public static int ResolutionHeight { get; private set; }
         public static int WindowWidth { get; private set; }
         public static int WindowHeight { get; private set; }
+        public static string Title { get; private set; }
+        public static bool MouseVisible
+        {
+            get
+            {
+                return CurrentGame.IsMouseVisible;
+            }
 
-        private string _title;
-        private AyoScene _currentScene;
+            set
+            {
+                CurrentGame.IsMouseVisible = value;
+            }
+        }
+
+        public static bool FullScreen
+        {
+            get
+            {
+                return AyoGameManager.Manager.Graphics.IsFullScreen;
+            }
+
+            set
+            {
+                AyoGameManager.Manager.Graphics.IsFullScreen = value;
+            }
+        }
+
+        public static AyoScenesManager ScenesManager
+        {
+            get
+            {
+                return AyoGameManager.Manager.AyoScenesManager;
+            }
+        }
+
         private VirtualScreen _virtualScreen;
         
         public AyoGame(
@@ -38,21 +71,14 @@ namespace AyoLib
             WindowWidth = windowWidth;
             WindowHeight = windowHeight;
 
+            Title = title;
+
             AyoGameManager.Manager.Graphics = new GraphicsDeviceManager(this);
             AyoGameManager.Manager.Graphics.IsFullScreen = fullScreen;
             AyoGameManager.Manager.Graphics.PreferredBackBufferWidth = WindowWidth;
             AyoGameManager.Manager.Graphics.PreferredBackBufferHeight = WindowHeight;
 
-            AyoGameManager.Manager.InitializeDefaultGameSystemEntities();
-
-            _title = title;
-            
-            if (startingScene == null)
-            {
-                startingScene = new BasicScene();
-            }
-
-            _currentScene = startingScene;
+            AyoGameManager.Manager.AyoScenesManager.SetupScene(startingScene);
         }
 
         /// <summary>
@@ -63,12 +89,18 @@ namespace AyoLib
         /// </summary>
         protected override void Initialize()
         {
-            Window.Title = _title;
+            Window.Title = Title;
 
             _virtualScreen = new VirtualScreen(AyoGame.CurrentGame.GraphicsDevice, ResolutionWidth, ResolutionHeight);
+            Window.ClientSizeChanged += Window_ClientSizeChanged;
 
-            _currentScene.Initialize();
+            AyoGameManager.Manager.Initialize();
             base.Initialize();
+        }
+
+        private void Window_ClientSizeChanged(object sender, EventArgs e)
+        {
+            _virtualScreen.ToogleResizingWindow();
         }
 
         /// <summary>
@@ -101,9 +133,7 @@ namespace AyoLib
 #endif
 
             _virtualScreen.Update(gameTime);
-            _currentScene.Update(gameTime);
-
-            AyoGameManager.Manager.UpdateGameSystemEntities(gameTime);
+            AyoGameManager.Manager.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -116,6 +146,17 @@ namespace AyoLib
         {
             //Drawing Render Target
             _virtualScreen.InitRenderer();
+            AyoGameManager.Manager.SpriteBatch.Begin();
+
+            AyoGameManager.Manager.Draw(AyoGameManager.Manager.SpriteBatch);
+
+            AyoGameManager.Manager.SpriteBatch.End();
+            _virtualScreen.ClearRenderer();
+
+
+
+            GraphicsDevice.Clear(Color.Black);
+            // Drawing BackBuffer
             AyoGameManager.Manager.SpriteBatch.Begin(
                 sortMode: SpriteSortMode.Deferred,
                 blendState: null,
@@ -126,18 +167,6 @@ namespace AyoLib
                 transformMatrix: null
             );
 
-            _currentScene.Draw(AyoGameManager.Manager.SpriteBatch);
-
-            AyoGameManager.Manager.SpriteBatch.End();
-            _virtualScreen.ClearRenderer();
-
-
-
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            // Drawing BackBuffer
-            AyoGameManager.Manager.SpriteBatch.Begin();
-
             _virtualScreen.Draw(AyoGameManager.Manager.SpriteBatch);
 
             AyoGameManager.Manager.SpriteBatch.End();
@@ -147,9 +176,13 @@ namespace AyoLib
 
         public AyoScene GetCurrentScene()
         {
-            return _currentScene;
+            return AyoGameManager.Manager.AyoScenesManager.CurrentScene;
         }
 
+        public static void ToogleFullScreen()
+        {
+            AyoGameManager.Manager.Graphics.ToggleFullScreen();
+        }
         
     }
 }

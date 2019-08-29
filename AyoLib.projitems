@@ -9,6 +9,7 @@
     <Import_RootNamespace>AyoLib</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Cameras\AyoCamera.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\BasicMovement.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\LookAtMouse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\AyoBasic.cs" />

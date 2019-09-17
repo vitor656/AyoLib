@@ -1,4 +1,5 @@
-﻿using AyoLib.Core.Managers;
+﻿using AyoLib.Core;
+using AyoLib.Core.Managers;
 using AyoLib.Entities;
 using AyoLib.Entities.Services;
 using AyoLib.Inputs;
@@ -21,7 +22,7 @@ namespace AyoLib
                 return _manager;
             }
         }
-
+        
         public SpriteBatch SpriteBatch;
         public GraphicsDeviceManager Graphics;
 
@@ -32,6 +33,11 @@ namespace AyoLib
         {
             AyoScenesManager.Initialize();
             InitializeDefaultGameSystemEntities();
+        }
+
+        public void LoadContent(GraphicsDevice graphicsDevice)
+        {
+            Manager.SpriteBatch = new SpriteBatch(graphicsDevice);
         }
 
         public void Update(GameTime gameTime)

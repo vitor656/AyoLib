@@ -14,7 +14,7 @@ namespace AyoLib.Core
         public float VirtualAspectRatio { get; private set; }
         public Rectangle ViewRect { get; private set; }
 
-        private GraphicsDevice _graphicsDevice;
+        public GraphicsDevice GraphicsDevice { get; private set; }
         private bool _windowSizeChanged = false;
 
         public VirtualScreen(GraphicsDevice graphicsDevice, int width, int height)
@@ -22,20 +22,20 @@ namespace AyoLib.Core
             VirtualWidth = width;
             VirtualHeight = height;
             VirtualAspectRatio = ((float) width) / ((float) height);
-            _graphicsDevice = graphicsDevice;
+            GraphicsDevice = graphicsDevice;
 
-            RenderTarget = new RenderTarget2D(_graphicsDevice, VirtualWidth, VirtualHeight);
+            RenderTarget = new RenderTarget2D(GraphicsDevice, VirtualWidth, VirtualHeight);
             ViewRect = new Rectangle(0, 0, AyoGameManager.Manager.Graphics.PreferredBackBufferWidth, AyoGameManager.Manager.Graphics.PreferredBackBufferHeight);
         }
 
         public void InitRenderer()
         {
-            _graphicsDevice.SetRenderTarget(RenderTarget);
+            GraphicsDevice.SetRenderTarget(RenderTarget);
         }
 
         public void ClearRenderer()
         {
-            _graphicsDevice.SetRenderTarget(null);
+            GraphicsDevice.SetRenderTarget(null);
         }
 
         public void ToogleResizingWindow()
@@ -50,9 +50,9 @@ namespace AyoLib.Core
 
             _windowSizeChanged = false;
 
-            int physicalWidth = _graphicsDevice.Viewport.Width;
-            int physicalHeight = _graphicsDevice.Viewport.Height;
-            float physicalAspectRatio = _graphicsDevice.Viewport.AspectRatio;
+            int physicalWidth = GraphicsDevice.Viewport.Width;
+            int physicalHeight = GraphicsDevice.Viewport.Height;
+            float physicalAspectRatio = GraphicsDevice.Viewport.AspectRatio;
 
             if ((int)(physicalAspectRatio * 10) == (int)(VirtualAspectRatio * 10))
             {

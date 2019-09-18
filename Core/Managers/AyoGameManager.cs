@@ -68,6 +68,7 @@ namespace AyoLib
             {
                 VirtualScreen.InitRenderer();
 
+                VirtualScreen.GraphicsDevice.Clear(AyoGame.BackgroundColor);
                 Manager.SpriteBatch.Begin();
                 Manager.Draw(Manager.SpriteBatch);
                 Manager.SpriteBatch.End();
@@ -80,9 +81,8 @@ namespace AyoLib
         {
             GraphicsDevice graphicsDevice = AyoGame.CurrentGame.GraphicsDevice;
 
-            graphicsDevice.Clear(Color.Black);
+            graphicsDevice.Clear(AyoGame.BackgroundColor);
 
-            // Drawing BackBuffer
             Manager.SpriteBatch.Begin(
                 sortMode: SpriteSortMode.Deferred,
                 blendState: null,

@@ -12,6 +12,7 @@ namespace AyoLib
     {
         public static AyoGame CurrentGame;
 
+        public static Color BackgroundColor { get; set; }
         public static int ResolutionWidth { get; private set; }
         public static int ResolutionHeight { get; private set; }
         public static int WindowWidth { get; private set; }
@@ -70,6 +71,7 @@ namespace AyoLib
             WindowHeight = windowHeight;
 
             Title = title;
+            BackgroundColor = Color.Black;
 
             AyoGameManager.Manager.Graphics = new GraphicsDeviceManager(this);
             AyoGameManager.Manager.Graphics.IsFullScreen = fullScreen;

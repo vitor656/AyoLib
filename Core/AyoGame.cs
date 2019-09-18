@@ -51,8 +51,6 @@ namespace AyoLib
             }
         }
 
-        private VirtualScreen _virtualScreen;
-        
         public AyoGame(
             AyoScene startingScene = null, 
             string title = "AyoGame", 
@@ -90,17 +88,11 @@ namespace AyoLib
         protected override void Initialize()
         {
             Window.Title = Title;
-
-            _virtualScreen = new VirtualScreen(AyoGame.CurrentGame.GraphicsDevice, ResolutionWidth, ResolutionHeight);
-            Window.ClientSizeChanged += Window_ClientSizeChanged;
-
+            
+            AyoGameManager.Manager.InitializeVirtualScreen(CurrentGame.GraphicsDevice, ResolutionWidth, ResolutionHeight);
             AyoGameManager.Manager.Initialize();
-            base.Initialize();
-        }
 
-        private void Window_ClientSizeChanged(object sender, EventArgs e)
-        {
-            _virtualScreen.ToogleResizingWindow();
+            base.Initialize();
         }
 
         /// <summary>
@@ -109,9 +101,7 @@ namespace AyoLib
         /// </summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
             AyoGameManager.Manager.LoadContent(GraphicsDevice);
-
             //TODO: use this.Content to load your game content here 
         }
 
@@ -132,7 +122,6 @@ namespace AyoLib
             }
 #endif
 
-            _virtualScreen.Update(gameTime);
             AyoGameManager.Manager.Update(gameTime);
 
             base.Update(gameTime);
@@ -144,32 +133,8 @@ namespace AyoLib
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            //Drawing Render Target
-            _virtualScreen.InitRenderer();
-            AyoGameManager.Manager.SpriteBatch.Begin();
-
-            AyoGameManager.Manager.Draw(AyoGameManager.Manager.SpriteBatch);
-
-            AyoGameManager.Manager.SpriteBatch.End();
-            _virtualScreen.ClearRenderer();
-
-
-
-            GraphicsDevice.Clear(Color.Black);
-            // Drawing BackBuffer
-            AyoGameManager.Manager.SpriteBatch.Begin(
-                sortMode: SpriteSortMode.Deferred,
-                blendState: null,
-                samplerState: SamplerState.PointClamp,
-                depthStencilState: null,
-                rasterizerState: null,
-                effect: null,
-                transformMatrix: null
-            );
-
-            _virtualScreen.Draw(AyoGameManager.Manager.SpriteBatch);
-
-            AyoGameManager.Manager.SpriteBatch.End();
+            AyoGameManager.Manager.DrawAtVirtualScreen();
+            AyoGameManager.Manager.DrawAtBackBuffer();
 
             base.Draw(gameTime);
         }

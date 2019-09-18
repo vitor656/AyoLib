@@ -29,10 +29,18 @@ namespace AyoLib
         public AyoScenesManager AyoScenesManager = new AyoScenesManager();
         public List<GameSystemEntity> GameSystemEntities = new List<GameSystemEntity>();
 
+        public VirtualScreen VirtualScreen;
+
         public void Initialize()
         {
             AyoScenesManager.Initialize();
             InitializeDefaultGameSystemEntities();
+        }
+
+        public void InitializeVirtualScreen(GraphicsDevice graphicsDevice, int resolutionWidth, int resolutionHeight)
+        {
+            Manager.VirtualScreen = new VirtualScreen(graphicsDevice, resolutionWidth, resolutionHeight);
+            AyoGame.CurrentGame.Window.ClientSizeChanged += Manager.VirtualScreen.Window_ClientSizeChanged;
         }
 
         public void LoadContent(GraphicsDevice graphicsDevice)
@@ -42,6 +50,9 @@ namespace AyoLib
 
         public void Update(GameTime gameTime)
         {
+            if (VirtualScreen != null)
+                VirtualScreen.Update(gameTime);
+
             AyoScenesManager.Update(gameTime);
             UpdateGameSystemEntities(gameTime);
         }
@@ -49,6 +60,44 @@ namespace AyoLib
         public void Draw(SpriteBatch spriteBatch)
         {
             AyoScenesManager.Draw(spriteBatch);
+        }
+
+        public void DrawAtVirtualScreen()
+        {
+            if(VirtualScreen != null)
+            {
+                VirtualScreen.InitRenderer();
+
+                Manager.SpriteBatch.Begin();
+                Manager.Draw(Manager.SpriteBatch);
+                Manager.SpriteBatch.End();
+
+                VirtualScreen.ClearRenderer();
+            }
+        }
+
+        public void DrawAtBackBuffer()
+        {
+            GraphicsDevice graphicsDevice = AyoGame.CurrentGame.GraphicsDevice;
+
+            graphicsDevice.Clear(Color.Black);
+
+            // Drawing BackBuffer
+            Manager.SpriteBatch.Begin(
+                sortMode: SpriteSortMode.Deferred,
+                blendState: null,
+                samplerState: SamplerState.PointClamp,
+                depthStencilState: null,
+                rasterizerState: null,
+                effect: null,
+                transformMatrix: null
+            );
+
+            if(VirtualScreen != null)
+                VirtualScreen.Draw(Manager.SpriteBatch);
+
+            Manager.SpriteBatch.End();
+
         }
 
         private void InitializeDefaultGameSystemEntities()

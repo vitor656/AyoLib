@@ -87,5 +87,12 @@ namespace AyoLib.Core
                 Color.White
             );
         }
+
+
+        public void Window_ClientSizeChanged(object sender, EventArgs e)
+        {
+            ToogleResizingWindow();
+        }
+
     }
 }

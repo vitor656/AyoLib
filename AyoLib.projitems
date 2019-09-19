@@ -18,6 +18,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Components\Component.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\BasicScene.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Managers\AyoScenesManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\Background.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Rendering\VirtualScreen.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Managers\AyoBasicEntitiesManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\Entity.cs" />
